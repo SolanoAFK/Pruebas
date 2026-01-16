@@ -31,4 +31,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD java -cp app.jar -c "import java.net.URL; new URL(\"http://localhost:8081/\").openConnection().getResponseCode()" || exit 1
 
 # Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
