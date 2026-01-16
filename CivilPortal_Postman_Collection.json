@@ -1,0 +1,523 @@
+{
+  "info": {
+    "name": "Civil Portal API",
+    "description": "Colección completa de endpoints para testing",
+    "version": "1.0",
+    "baseUrl": "http://localhost:8081"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "PUBLIC ENDPOINTS",
+      "item": [
+        {
+          "name": "Landing Page",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/",
+            "description": "Landing pública de la aplicación"
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health",
+            "description": "Verificar que el servidor está activo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AUTHENTICATION",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"admin\",\"password\":\"admin123\"}"
+            },
+            "description": "Autenticar usuario y obtener JWT token"
+          }
+        },
+        {
+          "name": "Auth Ping",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/ping",
+            "description": "Health check de autenticación"
+          }
+        }
+      ]
+    },
+    {
+      "name": "USUARIOS",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/usuarios",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener listado de todos los usuarios"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/usuarios/2",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener usuario específico (cambiar 2 por el ID deseado)"
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/usuarios",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"nuevo_usuario\",\"passwordHash\":\"password123\",\"nombres\":\"Juan\",\"apellidos\":\"Pérez\",\"email\":\"juan@example.com\",\"estado\":1}"
+            },
+            "description": "Crear nuevo usuario"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/usuarios/2",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombres\":\"Juan Carlos\",\"email\":\"nuevoemail@example.com\"}"
+            },
+            "description": "Actualizar información del usuario"
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/usuarios/2",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Eliminar usuario (cambiar 2 por el ID a eliminar)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PROYECTOS",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/proyectos",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener listado de todos los proyectos"
+          }
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/proyectos/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener proyecto específico"
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/proyectos",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"codigo\":\"PROY001\",\"nombre\":\"Carretera Central\",\"descripcion\":\"Proyecto de construcción de carretera\",\"ubicacion\":\"San Isidro\",\"estado\":\"EN_PROCESO\",\"fechaInicio\":\"2025-01-15\",\"fechaFin\":\"2025-12-31\"}"
+            },
+            "description": "Crear nuevo proyecto"
+          }
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/proyectos/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Carretera Central Actualizado\",\"estado\":\"COMPLETADO\"}"
+            },
+            "description": "Actualizar proyecto"
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/proyectos/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Eliminar proyecto"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CLIENTES",
+      "item": [
+        {
+          "name": "Get All Clients",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/clientes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener listado de todos los clientes"
+          }
+        },
+        {
+          "name": "Get Client by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/clientes/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener cliente específico"
+          }
+        },
+        {
+          "name": "Create Client",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/clientes",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Empresa Constructora XYZ\",\"documento\":\"1234567890\",\"telefono\":\"555-1234\",\"email\":\"contacto@empresaxyz.com\",\"direccion\":\"Calle Principal 123\"}"
+            },
+            "description": "Crear nuevo cliente"
+          }
+        },
+        {
+          "name": "Update Client",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/clientes/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Empresa Constructora XYZ S.A.\",\"email\":\"newemail@empresaxyz.com\"}"
+            },
+            "description": "Actualizar cliente"
+          }
+        },
+        {
+          "name": "Delete Client",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/clientes/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Eliminar cliente"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DOCUMENTOS",
+      "item": [
+        {
+          "name": "Get Documents by Project",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/documentos/proyecto/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener documentos de un proyecto específico"
+          }
+        },
+        {
+          "name": "Get Document by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/documentos/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Obtener documento específico"
+          }
+        },
+        {
+          "name": "Create Document",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/documentos",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Planos Arquitectónicos\",\"tipo\":\"PDF\",\"extension\":\"pdf\",\"rutaArchivo\":\"/documentos/planos_001.pdf\",\"version\":\"1.0\",\"descripcion\":\"Planos del proyecto\",\"proyecto\":{\"id\":1}}"
+            },
+            "description": "Crear nuevo documento"
+          }
+        },
+        {
+          "name": "Update Document",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/documentos/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Planos Arquitectónicos v2\",\"version\":\"2.0\"}"
+            },
+            "description": "Actualizar documento"
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/documentos/1",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}"
+                }
+              ]
+            },
+            "description": "Eliminar documento"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "description": "Obtener en Login y pegarlo aquí"
+    }
+  ]
+}

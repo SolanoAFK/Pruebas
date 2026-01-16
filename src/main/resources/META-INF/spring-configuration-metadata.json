@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "app",
+      "description": "Application custom properties",
+      "sourceType": "solano.com.Practicas.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.jwt.secret",
+      "type": "java.lang.String",
+      "description": "Secret key for JWT token generation",
+      "sourceType": "solano.com.Practicas.config.JwtProperties"
+    },
+    {
+      "name": "app.jwt.expiration-minutes",
+      "type": "java.lang.Integer",
+      "description": "JWT token expiration time in minutes",
+      "sourceType": "solano.com.Practicas.config.JwtProperties"
+    }
+  ]
+}

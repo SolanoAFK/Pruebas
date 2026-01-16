@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # Base de datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: civil-portal-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: civil_portal
+      MYSQL_USER: civil_app
+      MYSQL_PASSWORD: CivilApp@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - civil-network
+
+  # Aplicación Spring Boot
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: civil-portal-app
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      # Conectar a MySQL usando el nombre del servicio (DNS interno)
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/civil_portal?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: civil_app
+      SPRING_DATASOURCE_PASSWORD: CivilApp@123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: dev
+      APP_JWT_SECRET: HOLA_AMIGOS_DE_LA_CARRERA_DE_INGENIERIA_DE_SISTEMAS_SEAN_BIENVENIDOS_AL_TOKENXD
+      APP_JWT_EXPIRATION_MINUTES: 60
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - civil-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  civil-network:
+    driver: bridge

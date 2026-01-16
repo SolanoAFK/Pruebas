@@ -1,0 +1,6 @@
+package solano.com.Practicas.dto;
+
+public record LoginResponse(
+        String tokenType,
+        String accessToken) {
+}
